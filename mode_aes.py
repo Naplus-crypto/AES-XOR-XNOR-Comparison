@@ -53,11 +53,11 @@ class mode:
         print("IV (base64):", base64.b64encode(iv).decode('utf-8'))
         print("IV (bytes):", iv)
              
-        cipher_text = XOR_aes.AES(key).encrypt_ctr(plain_text, iv)
+        cipher_text = xor_aes.AES(key).encrypt_ctr(plain_text, iv)
         print("Cipher Text (base64):", base64.b64encode(cipher_text).decode('utf-8'))
         print("Cipher Text (hex):", cipher_text.hex())
         
-        decrypted_text = XOR_aes.AES(key).decrypt_ctr(cipher_text, iv)
+        decrypted_text = xor_aes.AES(key).decrypt_ctr(cipher_text, iv)
         if input_type == 's':
         	print("Decrypted Text:", decrypted_text.decode('utf-8'))
         elif input_type == 'h':
