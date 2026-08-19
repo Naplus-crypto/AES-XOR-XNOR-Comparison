@@ -29,3 +29,8 @@ This project contains a collection of Python scripts for implementing and testin
 - Required libraries: Ensure all dependencies are installed. You can install them using:
   ```bash
   pip install -r requirements.txt
+
+## Credits & License
+
+* This project includes modified code originally created by [Bo Zhu](http://about.bozhu.me) (Copyright © 2012), which was shared under the MIT License via their repository's README.
+* This overall project is released under the [MIT License](LICENSE).
