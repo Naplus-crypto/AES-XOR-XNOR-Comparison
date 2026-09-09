@@ -293,7 +293,12 @@ class AES:
         """
         Encrypts the plaintext using ECB mode and PKCS#7 padding.
         """
-        #plaintext = pad(plaintext)
+        # BUGFIX: padding was commented out here, so encrypt_ecb crashed
+        # (AssertionError in split_blocks) on any plaintext whose length
+        # wasn't already an exact multiple of 16 bytes — i.e. almost any
+        # real message. PKCS#7 padding is now actually applied, matching
+        # every other mode in this file and the docstring above.
+        plaintext = pad(plaintext)
 
         blocks = []
         for plaintext_block in split_blocks(plaintext):
@@ -311,7 +316,7 @@ class AES:
             block = self.decrypt_block(ciphertext_block)
             blocks.append(block)
             
-        return b''.join(blocks)
+        return unpad(b''.join(blocks))
 
     def encrypt_cbc(self, plaintext, iv):
         """

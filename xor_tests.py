@@ -36,6 +36,41 @@ class TestBlock(unittest.TestCase):
         ciphertext = AES(bytes(key)).encrypt_block(bytes(message))
         self.assertEqual(ciphertext, b'\x39\x25\x84\x1D\x02\xDC\x09\xFB\xDC\x11\x85\x97\x19\x6A\x0B\x32')
 
+class TestEcb(unittest.TestCase):
+    """
+    Tests ECB mode. No test previously covered this mode at all, which is
+    how encrypt_ecb's missing PKCS#7 padding call went unnoticed — it
+    crashed on any plaintext that wasn't already an exact multiple of 16
+    bytes.
+    """
+    def setUp(self):
+        self.aes = AES(bytes(16))
+
+    def test_single_block(self):
+        message = b'a secret message'
+        ciphertext = self.aes.encrypt_ecb(message)
+        self.assertEqual(self.aes.decrypt_ecb(ciphertext), message)
+
+    def test_non_block_aligned_length(self):
+        """ Regression test: previously raised AssertionError. """
+        for length in (1, 15, 17, 31, 33):
+            message = bytes(range(length))
+            ciphertext = self.aes.encrypt_ecb(message)
+            self.assertEqual(self.aes.decrypt_ecb(ciphertext), message)
+
+    def test_whole_block_padding(self):
+        """ When len(message) == block size, padding will add a block. """
+        message = bytes(16)
+        ciphertext = self.aes.encrypt_ecb(message)
+        self.assertEqual(len(ciphertext), 32)
+        self.assertEqual(self.aes.decrypt_ecb(ciphertext), message)
+
+    def test_long_message(self):
+        message = bytes(uc % 256 for uc in range(1000))
+        ciphertext = self.aes.encrypt_ecb(message)
+        self.assertEqual(self.aes.decrypt_ecb(ciphertext), message)
+
+
 class TestKeySizes(unittest.TestCase):
     """
     Tests encrypt and decryption using 192- and 256-bit keys.
