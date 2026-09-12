@@ -1,4 +1,4 @@
-# Performance and Security Comparison of AES using XOR and XNOR
+# Evaluating the Impact of XOR and XNOR Operators on AES Execution Speed and Bit-Diffusion Security
 
 ## Abstract
 
