@@ -1,4 +1,6 @@
 # Evaluating the Impact of XOR and XNOR Operators on AES Execution Speed and Bit-Diffusion Security
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Abstract
 
